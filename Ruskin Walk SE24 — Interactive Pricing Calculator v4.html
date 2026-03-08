@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<!-- saved from url=(0115)file:///C:/Users/noblej/Downloads/Ruskin_Walk_SE24_%E2%80%94_Interactive_Pricing_Calculator_v4_20260307_231349.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruskin Walk SE24 — Interactive Pricing Calculator v4</title>
+    <style>
+
+:root {
+    --primary: #60A5FA;
+    --secondary: #818CF8;
+    --accent: #34D399;
+    --bg: #111827;
+    --surface: #1F2937;
+    --text: #F9FAFB;
+    --text-muted: #9CA3AF;
+    --border: #374151;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background-color: var(--bg);
+}
+
+.report-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.report-header {
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+
+.report-header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.report-meta {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.section {
+    margin-bottom: 32px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--secondary);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-content {
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.section-content p {
+    margin-bottom: 12px;
+}
+
+.section-content ul {
+    list-style: disc;
+    margin-left: 24px;
+    margin-top: 8px;
+}
+
+.section-content li {
+    margin-bottom: 8px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+}
+
+.data-table th {
+    background-color: var(--primary);
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 16px;
+}
+
+.data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.data-table tr:nth-child(even) {
+    background-color: var(--surface);
+}
+
+.chart-container {
+    margin: 24px 0;
+    padding: 16px;
+    background-color: var(--surface);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.chart-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--secondary);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.chart-canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+.report-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .report-container {
+        padding: 24px 16px;
+    }
+
+    .report-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+    }
+
+    .data-table {
+        font-size: 0.875rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 8px 12px;
+    }
+}
+
+@media print {
+    .report-container {
+        max-width: 100%;
+    }
+
+    .chart-container {
+        break-inside: avoid;
+    }
+}
+
+
+/* Diagram/Architecture Styles */
+.diagram-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.process-box, .blue-box, .green-box, .yellow-box, .purple-box, .red-box {
+    background: linear-gradient(135deg, #3B82F6, #2563EB);
+    padding: 20px 24px;
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.green-box { background: linear-gradient(135deg, #10B981, #059669); }
+.yellow-box { background: linear-gradient(135deg, #F59E0B, #D97706); }
+.purple-box { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
+.red-box { background: linear-gradient(135deg, #EF4444, #DC2626); }
+
+.box-header {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+}
+
+.box-content {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.arrow {
+    font-size: 32px;
+    color: #94A3B8;
+    padding: 0 10px;
+}
+
+.arrow-down {
+    font-size: 32px;
+    color: #94A3B8;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.architecture-diagram {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.tier-info {
+    background: rgba(255,255,255,0.1);
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.output-info {
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+/* SVG Container */
+.svg-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.svg-container svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Flow diagram */
+.flow-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.flow-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Grid layouts */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+/* Custom CSS */
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0F172A;color:#E2E8F0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5}
+#app{max-width:1260px;margin:0 auto;padding:20px}
+header{text-align:center;padding:26px 0 16px;border-bottom:1px solid #334155;margin-bottom:20px}
+header h1{font-size:24px;color:#F8FAFC;margin-bottom:4px}
+.sub{color:#94A3B8;font-size:11px}
+.vtag{display:inline-block;background:#3B82F6;color:#fff;font-size:10px;padding:2px 8px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.tab-nav{display:flex;gap:2px;flex-wrap:wrap;margin-bottom:20px;border-bottom:2px solid #334155}
+.tb{background:transparent;border:none;color:#94A3B8;padding:8px 12px;font-size:11px;font-weight:500;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;border-radius:6px 6px 0 0}
+.tb:hover{color:#F8FAFC;background:#1E293B}.tb.act{color:#60A5FA;border-bottom-color:#60A5FA;background:#1E293B}
+.tp{display:none}.tp.act{display:block}
+.mr{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.mc{background:#1E293B;border-radius:10px;padding:14px;text-align:center;border:1px solid #334155;transition:all .3s}
+.ml{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:#94A3B8;margin-bottom:4px}
+.mv{font-size:20px;font-weight:700;color:#F8FAFC;margin-bottom:2px}
+.ms{font-size:9px;color:#64748B}
+.cg{border-color:#4ADE80;background:linear-gradient(135deg,#1E293B,#064E3B)}.cg .mv{color:#4ADE80}
+.ca{border-color:#FBBF24;background:linear-gradient(135deg,#1E293B,#422006)}.ca .mv{color:#FBBF24}
+.cr{border-color:#F87171;background:linear-gradient(135deg,#1E293B,#450A0A)}.cr .mv{color:#F87171}
+.sec{margin-bottom:24px}
+.sec h2{font-size:15px;color:#F8FAFC;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #334155}
+.sec h3{font-size:12px;color:#60A5FA;margin-bottom:7px}
+.sbtn{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.sb{background:#1E293B;border:1px solid #475569;color:#CBD5E1;padding:7px 12px;border-radius:6px;cursor:pointer;font-size:10px;transition:all .2s}
+.sb:hover{background:#334155;border-color:#60A5FA;color:#F8FAFC}
+.shl{border-color:#4ADE80;color:#4ADE80}
+.ig{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.igp{background:#1E293B;border-radius:8px;padding:12px;border:1px solid #334155}
+.igp h3{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#60A5FA;margin-bottom:8px}
+.ir{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.ir label{flex:0 0 auto;font-size:9px;color:#94A3B8;min-width:48px}
+.ir input[type="range"]{flex:1;accent-color:#60A5FA;height:4px;cursor:pointer}
+.ir .v{font-size:10px;font-weight:600;color:#F8FAFC;min-width:88px;text-align:right;font-variant-numeric:tabular-nums}
+.fv{font-size:9px;color:#64748B;margin-left:auto}
+.ni{width:70px;background:#0F172A;border:1px solid #475569;color:#F8FAFC;padding:2px 5px;border-radius:5px;font-size:10px;text-align:right;margin-left:auto}
+.tg{position:relative;display:inline-block;width:36px;height:18px;cursor:pointer;margin-left:auto}
+.tg input{opacity:0;width:0;height:0}
+.tgs{position:absolute;top:0;left:0;right:0;bottom:0;background:#475569;border-radius:18px;transition:.3s}
+.tgs:before{content:'';position:absolute;height:12px;width:12px;left:3px;bottom:3px;background:#F8FAFC;border-radius:50%;transition:.3s}
+.tg input:checked+.tgs{background:#60A5FA}.tg input:checked+.tgs:before{transform:translateX(18px)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.bt{width:100%;background:#1E293B;border-radius:8px;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid #334155}
+.bt thead th{background:#334155;padding:7px 10px;text-align:left;font-size:10px;font-weight:600;color:#F8FAFC}
+.bt td{padding:6px 10px;font-size:10px;border-bottom:1px solid #1E293B;color:#CBD5E1}
+.bt td:last-child{text-align:right;font-weight:600;font-variant-numeric:tabular-nums;color:#F8FAFC}
+.bt .tr td{background:#0F172A;font-weight:700;color:#F8FAFC;border-top:2px solid #475569}
+.bt .gr td{background:#0F172A;color:#60A5FA;font-weight:600}
+.bt .er td{background:#0F172A;font-weight:700;font-size:11px}
+.ic{background:#1E293B;border-radius:8px;padding:14px;border:1px solid #334155}
+.ic h3{font-size:11px;color:#60A5FA;margin-bottom:8px}
+.mt{width:100%}.mt td{padding:3px 0;font-size:10px}.mt td:last-child{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.mt .tr td{border-top:2px solid #475569;padding-top:6px;font-size:11px}
+.red{color:#F87171}.green{color:#4ADE80}.amber{color:#FBBF24}.blue{color:#60A5FA}
+.ic ul{list-style:none;padding:0}.ic li{font-size:10px;padding:3px 0;color:#CBD5E1}
+.ob{display:flex;gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid #334155}
+.oi{flex:1;text-align:center;padding:8px;background:#0F172A;border-radius:6px}
+.oi span{display:block;font-size:8px;color:#94A3B8;margin-bottom:2px}
+.oi strong{font-size:13px;color:#4ADE80}
+.oi.w strong{color:#FBBF24}.oi.d strong{color:#F87171}
+.ht{font-size:9px;color:#64748B;margin-bottom:10px}
+.sc{background:#1E293B;border-radius:8px;padding:10px;border:1px solid #334155}
+.sr{display:flex;align-items:center;gap:8px;padding:3px 0}
+.sbase{background:#334155;border-radius:4px;padding:3px 6px;margin:2px -6px}
+.sl{flex:0 0 175px;font-size:9px;color:#CBD5E1}
+.sbc{flex:1}.sbg{position:relative;height:12px;background:#0F172A;border-radius:3px;overflow:hidden}
+.sbar{height:100%;border-radius:3px;transition:width .4s,margin-left .4s}
+.sz{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#64748B}
+.svl{flex:0 0 80px;font-size:10px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.al{padding:10px 14px;border-radius:8px;font-size:10px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px}
+.alr{background:#450A0A;border:1px solid #F87171;color:#FCA5A5}
+.ala{background:#422006;border:1px solid #FBBF24;color:#FDE68A}
+.alg{background:#064E3B;border:1px solid #4ADE80;color:#A7F3D0}
+.alb{background:#1e1b4b;border:1px solid #60A5FA;color:#93C5FD}
+.ali{font-size:14px;flex-shrink:0}
+.ct{width:100%;background:#1E293B;border-radius:8px;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid #334155;font-size:10px}
+.ct thead th{background:#334155;padding:6px 8px;text-align:left;font-size:9px;font-weight:600;color:#F8FAFC;white-space:nowrap}
+.ct td{padding:5px 8px;border-bottom:1px solid #1E293B;color:#CBD5E1}.ct tr:hover td{background:#334155}
+.pb{display:inline-block;padding:1px 6px;border-radius:3px;font-weight:600;font-size:9px}
+.ph{background:#064E3B;color:#4ADE80}.pm{background:#422006;color:#FBBF24}.pl{background:#450A0A;color:#F87171}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mcd{background:#1E293B;border-radius:8px;padding:12px;border:1px solid #334155;text-align:center}
+.mcd h4{font-size:11px;color:#60A5FA;margin-bottom:6px}
+.mbig{font-size:24px;font-weight:700;color:#F8FAFC;margin-bottom:2px}
+.mdt{font-size:9px;color:#94A3B8;margin-bottom:1px}
+.mtot{font-size:12px;font-weight:600;color:#FBBF24;margin-top:6px;padding-top:6px;border-top:1px solid #334155}
+.wf{display:flex;align-items:flex-end;gap:4px;height:180px;padding:8px;background:#1E293B;border-radius:8px;border:1px solid #334155;margin-bottom:12px}
+.wfc{flex:1;display:flex;flex-direction:column;align-items:center;position:relative}
+.wfb{width:60%;border-radius:3px 3px 0 0;transition:height .4s;position:relative}
+.wfl{font-size:7px;color:#94A3B8;text-align:center;margin-top:4px;line-height:1.1}
+.wfv{font-size:8px;font-weight:600;color:#F8FAFC;position:absolute;top:-14px;left:50%;transform:translateX(-50%);white-space:nowrap}
+.szc{display:flex;align-items:flex-end;gap:3px;height:120px;padding:6px 6px 0;background:#1E293B;border-radius:8px;border:1px solid #334155}
+.szw{flex:1;display:flex;flex-direction:column;align-items:center}
+.szb{width:70%;border-radius:3px 3px 0 0}.szl{font-size:7px;color:#94A3B8;margin-top:2px;text-align:center}
+.szv{font-size:8px;font-weight:600;margin-bottom:2px}
+.spec-btns{display:flex;gap:5px;margin-bottom:10px}
+.spec-btn{padding:6px 12px;border-radius:5px;border:1px solid #475569;background:#0F172A;color:#CBD5E1;font-size:10px;cursor:pointer;transition:all .2s}
+.spec-btn:hover{border-color:#60A5FA;color:#F8FAFC}
+.spec-btn.active{border-color:#60A5FA;background:#1E293B;color:#60A5FA;font-weight:600}
+.bs{background:#0F172A;border-radius:7px;padding:10px 14px;border:1px solid #334155;margin-top:10px}
+.bs .row{display:flex;justify-content:space-between;padding:2px 0;font-size:10px}
+.bs .row .lbl{color:#94A3B8}.bs .row .val{color:#F8FAFC;font-weight:600;font-variant-numeric:tabular-nums}
+.bs .total{border-top:2px solid #475569;padding-top:5px;margin-top:3px;font-size:12px}
+.bs .total .val{color:#60A5FA}
+/* LIQUIDITY WATERFALL */
+.liq-wf{display:flex;align-items:flex-end;gap:3px;height:200px;padding:8px;background:#1E293B;border-radius:8px;border:1px solid #334155;margin-bottom:12px;position:relative}
+.liq-col{flex:1;display:flex;flex-direction:column;align-items:center;position:relative}
+.liq-bar{width:60%;border-radius:3px;transition:height .4s;position:relative}
+.liq-lbl{font-size:7px;color:#94A3B8;text-align:center;margin-top:3px;line-height:1.05}
+.liq-val{font-size:8px;font-weight:600;position:absolute;top:-14px;left:50%;transform:translateX(-50%);white-space:nowrap}
+.liq-zero{position:absolute;left:0;right:0;border-top:2px dashed #F87171;z-index:1}
+footer{margin-top:30px;padding:14px 0;border-top:1px solid #334155;text-align:center}
+footer p{font-size:9px;color:#64748B;margin-bottom:4px}footer strong{color:#FBBF24}
+@media(max-width:960px){.mr,.ig,.mg{grid-template-columns:repeat(2,1fr)}.g2,.g3{grid-template-columns:1fr}.sl{flex:0 0 130px}.tb{padding:6px 8px;font-size:10px}}
+@media(max-width:640px){.mr,.ig,.mg{grid-template-columns:1fr}.sbtn,.spec-btns{flex-direction:column}.ob{flex-direction:column}.sl{flex:0 0 100px;font-size:8px}.wf,.liq-wf{height:150px}}
+
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <header class="report-header">
+            <h1>Ruskin Walk SE24 — Interactive Pricing Calculator v4</h1>
+            <p class="report-meta">Generated: 2026-03-07 23:13</p>
+        </header>
+
+        <main class="report-content">
+
+<div id="app">
+<header>
+<h1>🏠 Ruskin Walk, Herne Hill SE24 9LZ <span class="vtag">v4</span></h1>
+<p class="sub">Per-Sqft Build · Liquidity &amp; ISA Shield · Lifestyle Premium · Developer Leverage · Mortgage · Comps · Seller Intel</p>
+</header>
+
+<div class="mr">
+<div class="mc" id="cC"><div class="ml">TOTAL ALL-IN COST</div><div class="mv" id="mC">£2.01m</div><div class="ms" id="mCs">Owner (no surcharge)</div></div>
+<div class="mc" id="cG"><div class="ml">GROSS DEV VALUE</div><div class="mv" id="mG">£1.67m</div><div class="ms" id="mGs">1,600sqft @ £1,046</div></div>
+<div class="mc cr" id="cE"><div class="ml">EQUITY POSITION</div><div class="mv" id="mE">−£333,391</div><div class="ms" id="mEs">-16.6%</div></div>
+<div class="mc cr" id="cV"><div class="ml">VERDICT</div><div class="mv" id="mV">❌ DO NOT BUY</div><div class="ms" id="mVs">Major loss</div></div>
+</div>
+
+<div class="sec"><h2>⚡ Quick Scenarios</h2>
+<div class="sbtn">
+<button onclick="setSc(1400000)" class="sb">Asking £1.4m</button>
+<button onclick="setSc(1200000)" class="sb">£1.2m</button>
+<button onclick="setSc(1130000)" class="sb">Previous £1.13m</button>
+<button onclick="setSc(1100000)" class="sb">Stretch £1.1m</button>
+<button onclick="setSc(1000000)" class="sb shl">Opening £1m</button>
+<button onclick="setSc(900000)" class="sb">Aggressive £900k</button>
+</div></div>
+
+<div class="tab-nav">
+<button class="tb act" onclick="stab(&#39;pricing&#39;,this)">📊 Pricing</button>
+<button class="tb" onclick="stab(&#39;build&#39;,this)">🔨 Build Costs</button>
+<button class="tb" onclick="stab(&#39;liquidity&#39;,this)">💧 Liquidity</button>
+<button class="tb" onclick="stab(&#39;seller&#39;,this)">🔍 Seller</button>
+<button class="tb" onclick="stab(&#39;comps&#39;,this)">📋 Comps</button>
+<button class="tb" onclick="stab(&#39;mortgage&#39;,this)">🏦 Mortgage</button>
+<button class="tb" onclick="stab(&#39;sens&#39;,this)">📈 Sensitivity</button>
+<button class="tb" onclick="stab(&#39;offer&#39;,this)">🎯 Offer</button>
+</div>
+
+<!-- TAB: PRICING -->
+<div id="t-pricing" class="tp act">
+<div class="sec"><h2>📊 Model Inputs</h2>
+<div class="ig">
+<div class="igp"><h3>Purchase &amp; Finance</h3>
+<div class="ir"><label>Purchase Price</label><input type="range" id="pp" min="500000" max="1600000" step="10000" value="1130000" oninput="upd()"><span class="v" id="ppV">£1,200,000</span></div>
+<div class="ir"><label>Dev Finance Rate</label><input type="range" id="fr" min="5" max="18" step=".5" value="10" oninput="upd()"><span class="v" id="frV">10%</span></div>
+<div class="ir"><label>Dev Finance LTV</label><input type="range" id="dfLTV" min="50" max="85" step="1" value="70" oninput="upd()"><span class="v" id="dfLTVV">67% of build</span></div>
+<div class="ir"><label>Redesign?</label><label class="tg"><input type="checkbox" id="rd" onchange="upd()"><span class="tgs"></span></label></div>
+</div>
+<div class="igp"><h3>Property Area</h3>
+<div class="ir"><label>Post-Works GIA</label><input type="range" id="gia" min="1400" max="2500" step="5" value="2045" oninput="upd()"><span class="v" id="giaV">1,600 sqft</span></div>
+<div class="ir"><label>Garden Room</label><input type="range" id="gr" min="0" max="250" step="5" value="155" oninput="upd()"><span class="v" id="grV">0 sqft</span></div>
+<div class="ir"><label>Extension Area</label><span class="v" id="extV" style="color:#60A5FA">0 sqft</span></div>
+<div class="ir"><label>Current GIA</label><span class="fv">1,604 sqft</span></div>
+</div>
+<div class="igp"><h3>Valuation &amp; Market</h3>
+<div class="ir"><label>£/sqft (GDV)</label><input type="range" id="psf" min="700" max="1300" step="5" value="1025" oninput="upd()"><span class="v" id="psfV">£1,025/sqft</span></div>
+<div class="ir"><label>Market Move</label><input type="range" id="mm" min="-20" max="20" step="1" value="0" oninput="upd()"><span class="v" id="mmV">+2%</span></div>
+<div class="ir"><label>Garden Disc.</label><input type="range" id="gd" min="30" max="80" step="5" value="60" oninput="upd()"><span class="v" id="gdV">50%</span></div>
+</div>
+<div class="igp"><h3>Timeline</h3>
+<div class="ir"><label>Pre-Con (mo)</label><input type="range" id="pcm" min="1" max="15" step="1" value="3" oninput="upd()"><span class="v" id="pcmV">3 mo</span></div>
+<div class="ir"><label>Build (mo)</label><input type="range" id="bm" min="6" max="30" step="1" value="12" oninput="upd()"><span class="v" id="bmV">9 mo</span></div>
+<div class="ir"><label>Total</label><span class="v" id="tmV" style="color:#60A5FA">18 mo (incl 6mo redesign)</span></div>
+</div>
+<div class="igp"><h3>Monthly Holding</h3>
+<div class="ir"><label>Insurance</label><input type="number" id="hI" value="250" min="0" max="1000" step="50" oninput="upd()" class="ni"></div>
+<div class="ir"><label>Council Tax</label><input type="number" id="hC" value="150" min="0" max="500" step="25" oninput="upd()" class="ni"></div>
+<div class="ir"><label>Utilities</label><input type="number" id="hU" value="200" min="0" max="500" step="25" oninput="upd()" class="ni"></div>
+<div class="ir"><label>Security</label><input type="number" id="hS" value="150" min="0" max="500" step="25" oninput="upd()" class="ni"></div>
+<div class="ir"><label>Rent during build</label><input type="number" id="hR" value="4500" min="0" max="8000" step="100" oninput="upd()" class="ni"></div>
+</div>
+<div class="igp"><h3>Contingency &amp; VAT</h3>
+<div class="ir"><label>Contingency %</label><input type="range" id="ct" min="0" max="30" step="1" value="15" oninput="upd()"><span class="v" id="ctV">15%</span></div>
+<div class="ir"><label>Cost Overrun</label><input type="range" id="co" min="-20" max="40" step="1" value="0" oninput="upd()"><span class="v" id="coV">+0%</span></div>
+<div class="ir"><label>VAT Rate</label><span class="fv">5% (LB Southwark)</span></div>
+</div>
+</div></div>
+<div class="sec"><h2>💰 Cost Breakdown</h2>
+<div class="g2">
+<table class="bt"><thead><tr><th>Owner-Occupier (No Surcharge)</th><th>Amount</th></tr></thead><tbody>
+<tr><td>Purchase Price</td><td id="bP">£1,200,000</td></tr>
+<tr><td>SDLT (Main Residence — no surcharge)</td><td id="bS">£63,750</td></tr>
+<tr><td>Build Costs (gross incl 5% VAT)</td><td id="bB">£497,406</td></tr>
+<tr><td>Contingency (gross)</td><td id="bCt">£74,611</td></tr>
+<tr><td>Professional Fees</td><td id="bF">£87,000</td></tr>
+<tr><td>Development Finance</td><td id="bFn">£27,424</td></tr>
+<tr><td>Property Holding Costs</td><td id="bH">£13,500</td></tr>
+<tr><td>Rent During Build</td><td id="bRent">£0</td></tr>
+<tr class="redesign-row" style=""><td>Redesign Extra</td><td id="bRd">£42,500</td></tr>
+<tr class="tr"><td><strong>TOTAL ALL-IN</strong></td><td id="bT">£2,006,191</td></tr>
+<tr><td colspan="2" style="height:5px"></td></tr>
+<tr class="gr"><td><strong>GDV</strong></td><td id="bGDV">£1,672,800</td></tr>
+<tr class="er"><td><strong>EQUITY</strong></td><td id="bEq" style="color: rgb(248, 113, 113);">−£333,391</td></tr>
+<tr><td>Break-Even £/sqft</td><td id="bBE" style="color: rgb(248, 113, 113);">£1,254/sqft</td></tr>
+</tbody></table>
+<table class="bt"><thead><tr><th>Flip / Developer (5% Surcharge)</th><th>Amount</th></tr></thead><tbody>
+<tr><td>Purchase Price</td><td id="fP">£1,200,000</td></tr>
+<tr><td>SDLT (with 5% surcharge)</td><td id="fS">£123,750</td></tr>
+<tr><td>Build + Contingency (gross)</td><td id="fB">£572,017</td></tr>
+<tr><td>Professional Fees</td><td id="fF">£87,000</td></tr>
+<tr><td>Finance + Holding + Rent</td><td id="fFH">£40,924</td></tr>
+<tr><td>Selling (1.8% + legal)</td><td id="fSl">£33,910</td></tr>
+<tr class="tr"><td><strong>TOTAL DEV COST</strong></td><td id="fT">£2,057,601</td></tr>
+<tr><td colspan="2" style="height:5px"></td></tr>
+<tr class="gr"><td><strong>GDV</strong></td><td id="fGDV">£1,672,800</td></tr>
+<tr class="er"><td><strong>GROSS PROFIT</strong></td><td id="fPr" style="color: rgb(248, 113, 113);">−£384,801</td></tr>
+<tr><td>CGT (24%)</td><td id="fCGT">—</td></tr>
+<tr><td><strong>Net After Tax</strong></td><td id="fNet" style="color: rgb(248, 113, 113);">−£384,801</td></tr>
+<tr><td>Return on Cost</td><td id="fROC" style="color: rgb(248, 113, 113);">-18.7%</td></tr>
+</tbody></table>
+</div></div>
+</div>
+
+<!-- TAB: BUILD COSTS -->
+<div id="t-build" class="tp">
+<div class="sec"><h2>🔨 Per-Sqft Build Cost Model</h2>
+<div class="spec-btns">
+<button class="spec-btn" onclick="setSpec(&#39;budget&#39;,this)">🔧 Budget</button>
+<button class="spec-btn active" onclick="setSpec(&#39;mid&#39;,this)">🏠 Mid</button>
+<button class="spec-btn" onclick="setSpec(&#39;premium&#39;,this)">✨ Premium</button>
+<button class="spec-btn" onclick="setSpec(&#39;ultra&#39;,this)">💎 Ultra</button>
+</div>
+<div class="ig">
+<div class="igp"><h3>Renovation (Existing 1,604 sqft)</h3>
+<div class="ir"><label>Reno £/sqft</label><input type="range" id="rpsf" min="100" max="420" step="5" value="220" oninput="upd()"><span class="v" id="rpsfV">£180/sqft</span></div>
+<div class="bs"><div class="row"><span class="lbl">1,604 sqft × £<span id="rpsfD">180</span>/sqft</span><span class="val" id="renoT">£288,720</span></div></div>
+</div>
+<div class="igp"><h3>Extensions (<span id="extD">0</span> sqft)</h3>
+<div class="ir"><label>Ext £/sqft</label><input type="range" id="epsf" min="200" max="650" step="5" value="360" oninput="upd()"><span class="v" id="epsfV">£320/sqft</span></div>
+<div class="bs"><div class="row"><span class="lbl"><span id="extD2">0</span> sqft × £<span id="epsfD">320</span>/sqft</span><span class="val" id="extT">£0</span></div></div>
+</div>
+<div class="igp"><h3>Garden Room (<span id="grD">0</span> sqft)</h3>
+<div class="ir"><label>Garden £/sqft</label><input type="range" id="gpsf" min="120" max="420" step="5" value="220" oninput="upd()"><span class="v" id="gpsfV">£195/sqft</span></div>
+<div class="bs"><div class="row"><span class="lbl"><span id="grD2">0</span> sqft × £<span id="gpsfD">195</span>/sqft</span><span class="val" id="grBT">£0</span></div></div>
+</div>
+</div>
+<div class="ig" style="margin-top:10px">
+<div class="igp"><h3>Prelims &amp; Site</h3>
+<div class="ir"><label>Amount</label><input type="range" id="fcP" min="40000" max="120000" step="2000" value="76000" oninput="upd()"><span class="v" id="fcPV">£66,000</span></div>
+</div>
+<div class="igp"><h3>Structural / Subsidence</h3>
+<div class="ir"><label>Amount</label><input type="range" id="fcS" min="15000" max="150000" step="5000" value="100000" oninput="upd()"><span class="v" id="fcSV">£80,000</span></div>
+</div>
+<div class="igp"><h3>External Works</h3>
+<div class="ir"><label>Amount</label><input type="range" id="fcE" min="15000" max="80000" step="2000" value="45000" oninput="upd()"><span class="v" id="fcEV">£39,000</span></div>
+</div>
+</div>
+<div class="bs" style="margin-top:10px">
+<div class="row"><span class="lbl">Renovation</span><span class="val" id="bsR">£288,720</span></div>
+<div class="row"><span class="lbl">Extensions</span><span class="val" id="bsE">£0</span></div>
+<div class="row"><span class="lbl">Garden Room</span><span class="val" id="bsG">£0</span></div>
+<div class="row"><span class="lbl">Prelims</span><span class="val" id="bsP">£66,000</span></div>
+<div class="row"><span class="lbl">Structural / Subsidence</span><span class="val" id="bsSt">£80,000</span></div>
+<div class="row"><span class="lbl">External</span><span class="val" id="bsEx">£39,000</span></div>
+<div class="row total"><span class="lbl"><strong>NET BUILD COST</strong></span><span class="val" id="bsNet">£473,720</span></div>
+<div class="row"><span class="lbl">+ VAT (5%)</span><span class="val" id="bsVAT">£23,686</span></div>
+<div class="row total"><span class="lbl"><strong>GROSS BUILD</strong></span><span class="val" id="bsGross">£497,406</span></div>
+</div></div>
+</div>
+
+<!-- TAB: LIQUIDITY -->
+<div id="t-liquidity" class="tp">
+<div class="sec"><h2>💧 Liquidity &amp; ISA Tax Shield</h2>
+<div class="al alb"><span class="ali">💡</span><div><strong>No SDLT surcharge applies</strong> — you're renting, so standard rates only. This saves ~£55,000 vs a second-home buyer. The key constraint is <strong>cash vs ISA deployment</strong> — every £ pulled from ISAs has a real tax-shelter cost.</div></div>
+<div class="ig" style="grid-template-columns:1fr 1fr">
+<div class="igp"><h3>Available Capital</h3>
+<div class="ir"><label>Liquid Cash</label><input type="range" id="lqCash" min="500000" max="2500000" step="10000" value="1400000" oninput="upd()"><span class="v" id="lqCashV">£1,400,000</span></div>
+<div class="ir"><label>ISA Pot</label><input type="range" id="lqISA" min="0" max="800000" step="5000" value="450000" oninput="upd()"><span class="v" id="lqISAV">£450,000</span></div>
+<div class="ir"><label>Tax Rate</label><input type="range" id="taxR" min="20" max="45" step="1" value="40" oninput="upd()"><span class="v" id="taxRV">45%</span></div>
+</div>
+<div class="igp"><h3>ISA Shield Value</h3>
+<table class="mt" id="isaT">
+    <tbody><tr><td>ISA drawdown needed</td><td class="red">£288,798</td></tr>
+    <tr><td>Annual return on that (6%)</td><td>£17,328/yr</td></tr>
+    <tr><td>Tax-free (inside ISA)</td><td class="green">£17,328/yr</td></tr>
+    <tr><td>After tax (outside ISA, 45%)</td><td class="amber">£9,530/yr</td></tr>
+    <tr><td>Annual shield lost</td><td class="red">£7,798/yr</td></tr>
+    <tr class="tr"><td><strong>NPV of lost shield (20yr)</strong></td><td><strong class="red">£110,822</strong></td></tr>
+    <tr><td>Years to rebuild at £20k/yr</td><td class="amber">15 years</td></tr>
+  </tbody></table>
+</div>
+</div>
+<h3 style="margin-top:14px">Cash Flow Waterfall</h3>
+<p class="ht">Shows your cash position at each stage. Red zone = ISA drawdown required.</p>
+<div id="liqWF" class="liq-wf"><div class="liq-col"><div class="liq-bar" style="height:150px;background:#4ADE80;margin-top:auto"><div class="liq-val" style="color:#4ADE80">£1,400,000</div></div><div class="liq-lbl">Starting<br>Cash</div></div><div class="liq-col"><div class="liq-bar" style="height:21.428571428571427px;background:#60A5FA;margin-top:auto"><div class="liq-val" style="color:#60A5FA">£200,000</div></div><div class="liq-lbl">After<br>Purchase</div></div><div class="liq-col"><div class="liq-bar" style="height:14.598214285714286px;background:#60A5FA;margin-top:auto"><div class="liq-val" style="color:#60A5FA">£136,250</div></div><div class="liq-lbl">After<br>SDLT</div></div><div class="liq-col"><div class="liq-bar" style="height:8px;background:#818CF8;margin-top:auto"><div class="liq-val" style="color:#818CF8">£49,250</div></div><div class="liq-lbl">After<br>Fees</div></div><div class="liq-col"><div class="liq-bar" style="height:22.004410714285715px;background:#FBBF24;margin-top:auto"><div class="liq-val" style="color:#FBBF24">−£205,375</div></div><div class="liq-lbl">After Build<br>Cash</div></div><div class="liq-col"><div class="liq-bar" style="height:24.942695035714284px;background:#FBBF24;margin-top:auto"><div class="liq-val" style="color:#FBBF24">−£232,798</div></div><div class="liq-lbl">After<br>Finance</div></div><div class="liq-col"><div class="liq-bar" style="height:30.94269503571428px;background:#F87171;margin-top:auto"><div class="liq-val" style="color:#F87171">−£288,798</div></div><div class="liq-lbl">Trough<br>(end build)</div></div></div>
+<div class="g2">
+<div class="ic"><h3>Cash Flow Detail</h3><table class="mt" id="liqDetail">
+    <tbody><tr><td>Starting liquid cash</td><td class="green">£1,400,000</td></tr>
+    <tr><td>Minus purchase price</td><td class="red">−£1,200,000</td></tr>
+    <tr><td>Minus SDLT (no surcharge)</td><td class="red">−£63,750</td></tr>
+    <tr><td>Minus professional fees</td><td class="red">−£87,000</td></tr>
+    <tr><td>Minus build cash (33% of net)</td><td class="red">−£156,328</td></tr>
+    <tr><td>Minus VAT + contingency (gross)</td><td class="red">−£98,297</td></tr>
+    <tr><td>Minus finance costs</td><td class="red">−£27,424</td></tr>
+    <tr><td>Minus holding (18 months)</td><td class="red">−£13,500</td></tr>
+    <tr><td>Minus rent during build (18 × £0)</td><td class="red">−£0</td></tr>
+    <tr><td>Minus redesign extra</td><td class="red">−£42,500</td></tr>
+    <tr class="tr"><td><strong>Cash at trough (month 18)</strong></td><td><strong class="red">−£288,798</strong></td></tr>
+    <tr><td class="red"><strong>ISA drawdown needed</strong></td><td class="red"><strong>£288,798</strong></td></tr>
+    <tr><td>NPV cost of ISA breakage</td><td class="red">£110,822</td></tr>
+  </tbody></table></div>
+<div class="ic"><h3>Dev Finance LTV Impact</h3><table class="mt" id="dfImpact"><tbody><tr><td colspan="3" style="font-size:9px;color:#64748B;padding-bottom:4px">Higher dev finance LTV = less ISA breakage needed</td></tr><tr><td>60% LTV</td><td>Borrow £284,232</td><td class="red">ISA: £319,721</td></tr><tr><td>65% LTV</td><td>Borrow £307,918</td><td class="red">ISA: £297,633</td></tr><tr><td>70% LTV</td><td>Borrow £331,604</td><td class="red">ISA: £275,546</td></tr><tr><td>75% LTV</td><td>Borrow £355,290</td><td class="red">ISA: £253,459</td></tr><tr><td>80% LTV</td><td>Borrow £378,976</td><td class="red">ISA: £231,372</td></tr></tbody></table></div>
+</div>
+</div></div>
+
+<!-- TAB: SELLER -->
+<div id="t-seller" class="tp">
+<div class="sec"><h2>🔍 Seller's Position — Updated Intel</h2>
+<div class="al ala"><span class="ali">🏗️</span><div>Seller is an <strong>architect living on Ruskin Walk</strong>. Bought as dream home, owns <strong>2nd property</strong> (blocks SDLT reclaim). 5% surcharge (£56,500) is <strong>permanent sunk cost</strong>. Likely abandoned due to <strong>build cost shock</strong> or <strong>financial pressure</strong> from 3 properties.</div></div>
+<div id="sellerWF" class="wf"><div class="wfc"><div class="wfb" style="height:113px;background:#60A5FA"><div class="wfv">£1.13m</div></div><div class="wfl">Purchase</div></div><div class="wfc"><div class="wfb" style="height:8px;background:#818CF8"><div class="wfv">£57k</div></div><div class="wfl">SDLT<br>(std)</div></div><div class="wfc"><div class="wfb" style="height:8px;background:#F87171"><div class="wfv">£57k</div></div><div class="wfl">SDLT<br>(5% surch)</div></div><div class="wfc"><div class="wfb" style="height:8px;background:#818CF8"><div class="wfv">£35k</div></div><div class="wfl">Legal+<br>Works</div></div><div class="wfc"><div class="wfb" style="height:8px;background:#818CF8"><div class="wfv">£8k</div></div><div class="wfl">Holding</div></div><div class="wfc"><div class="wfb" style="height:128.57059999999998px;background:#FBBF24"><div class="wfv">£1.29m</div></div><div class="wfl">Total In</div></div><div class="wfc"><div class="wfb" style="height:8px;background:#F87171"><div class="wfv">£29k</div></div><div class="wfl">Sell<br>Costs</div></div><div class="wfc"><div class="wfb" style="height:131px;background:#F87171"><div class="wfv">£1.31m</div></div><div class="wfl">Break-<br>Even</div></div><div class="wfc"><div class="wfb" style="height:140px;background:#4ADE80"><div class="wfv">£1.40m</div></div><div class="wfl">Asking</div></div><div class="wfc"><div class="wfb" style="height:8.9px;background:#4ADE80"><div class="wfv">£89k</div></div><div class="wfl">Profit</div></div></div>
+<div class="g2">
+<div class="ic"><h3>Revised Outlay (No Architect Fees)</h3><table class="mt">
+<tbody><tr><td>Purchase (Feb 2025)</td><td>£1,130,000</td></tr>
+<tr><td>Standard SDLT</td><td>£56,750</td></tr>
+<tr><td class="red">5% Surcharge (PERMANENT)</td><td class="red">£56,500</td></tr>
+<tr><td>Legal + Clearance + Asbestos + Planning</td><td>£34,500</td></tr>
+<tr><td>Holding (~12 months)</td><td>£7,956</td></tr>
+<tr class="tr"><td><strong>Total In</strong></td><td><strong>£1,285,706</strong></td></tr>
+<tr><td>Note: NO architect fees (self-designed)</td><td class="amber">Saved ~£12k</td></tr>
+</tbody></table></div>
+<div class="ic"><h3>Seller P&amp;L</h3><table class="mt">
+<tbody><tr><td>At £1,400,000 (asking)</td><td class="green">+£89k (6.9%)</td></tr>
+<tr><td class="amber">Break-even</td><td class="amber">~£1,310,000</td></tr>
+<tr><td>At £1,300,000</td><td class="red">-£10k</td></tr>
+<tr><td>At £1,200,000</td><td class="red">-£108k</td></tr>
+<tr><td>At £1,100,000</td><td class="red">-£207k</td></tr>
+<tr><td>At £1,000,000</td><td class="red">-£305k</td></tr>
+</tbody></table></div>
+</div>
+<div class="ic" style="margin-top:10px"><h3>Why They're Selling (Ranked)</h3><table class="mt">
+<tbody><tr><td>1. Build cost shock — got quotes, saw £800k+</td><td class="red">HIGH</td></tr>
+<tr><td>2. Financial pressure — 3 properties bleeding cash</td><td class="red">MED-HIGH</td></tr>
+<tr><td>3. Subsidence worse than expected</td><td class="amber">MEDIUM</td></tr>
+<tr><td>4. Relationship/life change</td><td class="amber">MEDIUM</td></tr>
+<tr><td>⚠️ DEMAND structural survey — hesitation = red flag</td><td></td></tr>
+</tbody></table></div>
+</div></div>
+
+<!-- TAB: COMPS -->
+<div id="t-comps" class="tp">
+<div class="sec"><h2>📋 Comparables — 9LZ Semi vs 9NA Terraced</h2>
+<div class="al ala"><span class="ali">📍</span><div>Floor-area data is from <strong>odd-numbered terraced houses (9NA)</strong>. Your property is an <strong>even-numbered semi-detached (9LZ)</strong> — typically <strong>+5-15% premium</strong> over terraced, partially offsetting the size discount for larger homes.</div></div>
+<h3>Size vs £/sqft</h3>
+<div id="sizeChart" class="szc" style="margin-bottom:14px"><div class="szw"><div class="szv" style="color:#4ADE80">£1056</div><div class="szb" style="height:81.23076923076923px;background:#4ADE80"></div><div class="szl">1,000-<br>1,100</div></div><div class="szw"><div class="szv" style="color:#4ADE80">£1019</div><div class="szb" style="height:78.38461538461539px;background:#4ADE80"></div><div class="szl">1,100-<br>1,300</div></div><div class="szw"><div class="szv" style="color:#FBBF24">£867</div><div class="szb" style="height:66.6923076923077px;background:#FBBF24"></div><div class="szl">1,300-<br>1,600</div></div><div class="szw"><div class="szv" style="color:#F87171">£810</div><div class="szb" style="height:62.30769230769231px;background:#F87171"></div><div class="szl">1,600-<br>1,700</div></div><div class="szw"><div class="szv" style="color:#818CF8">£891</div><div class="szb" style="height:68.53846153846153px;background:#818CF8"></div><div class="szl">2,000+<br>Semi(+10%)</div></div></div>
+<table class="ct"><thead><tr><th>Address</th><th>Date</th><th>Price</th><th>Type</th><th>Sqft</th><th>£/sqft</th><th>PC</th><th>Notes</th></tr></thead><tbody id="compTB"><tr><td>65 Ruskin Walk</td><td>Aug 2023</td><td>£1,575,000</td><td>Terr</td><td>1,249</td><td><span class="pb ph">£1261</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">★ Highest</td></tr><tr><td>51 Ruskin Walk</td><td>Feb 2024</td><td>£1,315,000</td><td>Terr</td><td>1,313</td><td><span class="pb ph">£1002</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">Near benchmark</td></tr><tr><td>79 Ruskin Walk</td><td>Sep 2021</td><td>£1,250,000</td><td>Terr</td><td>1,195</td><td><span class="pb ph">£1046</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">Strong</td></tr><tr><td>21 Ruskin Walk</td><td>Dec 2021</td><td>£1,098,000</td><td>Terr</td><td>1,087</td><td><span class="pb ph">£1010</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">Smaller</td></tr><tr><td>15 Ruskin Walk</td><td>Jan 2024</td><td>£985,000</td><td>Terr</td><td>1,033</td><td><span class="pb pm">£954</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">Below avg</td></tr><tr><td>13 Ruskin Walk</td><td>Dec 2022</td><td>£1,434,000</td><td>Terr</td><td>1,604</td><td><span class="pb pl">£894</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">Larger→lower</td></tr><tr><td>49 Ruskin Walk</td><td>Aug 2022</td><td>£1,420,000</td><td>Terr</td><td>1,582</td><td><span class="pb pl">£898</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">Same pattern</td></tr><tr><td>33 Ruskin Walk</td><td>Jan 2022</td><td>£1,270,000</td><td>Terr</td><td>1,572</td><td><span class="pb pl">£808</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">Below avg</td></tr><tr><td>81 Ruskin Walk</td><td>Apr 2018</td><td>£1,500,000</td><td>Terr</td><td>1,668</td><td><span class="pb pl">£899</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">Large</td></tr><tr><td>37 Ruskin Walk</td><td>Sep 2021</td><td>£1,225,000</td><td>Terr</td><td>1,636</td><td><span class="pb pl">£749</span></td><td>9NA</td><td style="font-size:9px;color:#94A3B8">Lowest</td></tr><tr><td>52 Ruskin Walk</td><td>Jul 2024</td><td>£1,332,500</td><td>Semi</td><td><span style="color:#64748B">—</span></td><td><span style="color:#64748B">—</span></td><td style="color:#60A5FA;font-weight:600">9LZ</td><td style="font-size:9px;color:#94A3B8">Most recent 9LZ</td></tr><tr><td>46 Ruskin Walk</td><td>Apr 2022</td><td>£1,541,501</td><td>Semi</td><td><span style="color:#64748B">—</span></td><td><span style="color:#64748B">—</span></td><td style="color:#60A5FA;font-weight:600">9LZ</td><td style="font-size:9px;color:#94A3B8">Highest 9LZ</td></tr><tr><td>76 Ruskin Walk</td><td>Oct 2021</td><td>£1,375,000</td><td>Semi</td><td><span style="color:#64748B">—</span></td><td><span style="color:#64748B">—</span></td><td style="color:#60A5FA;font-weight:600">9LZ</td><td style="font-size:9px;color:#94A3B8"></td></tr><tr><td>44 Ruskin Walk</td><td>Aug 2020</td><td>£1,465,000</td><td>Semi</td><td><span style="color:#64748B">—</span></td><td><span style="color:#64748B">—</span></td><td style="color:#60A5FA;font-weight:600">9LZ</td><td style="font-size:9px;color:#94A3B8"></td></tr></tbody></table>
+<div class="g2" style="margin-top:12px">
+<div class="ic"><h3>£/sqft by Size (Terraced 9NA)</h3><table class="mt">
+<tbody><tr><td>1,000–1,300 sqft (4 sales)</td><td class="green">£1,054 avg</td></tr>
+<tr><td>1,300–1,600 sqft (4 sales)</td><td class="amber">£867 avg</td></tr>
+<tr><td>1,600–1,700 sqft (3 sales)</td><td class="red">£810 avg</td></tr>
+<tr class="tr"><td>All 11 (mean / median)</td><td>£945 / £925</td></tr>
+</tbody></table></div>
+<div class="ic"><h3>Semi-Detached Adjustment (9LZ)</h3><table class="mt">
+<tbody><tr><td>Semi-det premium</td><td class="green">+5-15%</td></tr>
+<tr><td>At 2,000 sqft terraced</td><td>~£810/sqft</td></tr>
+<tr><td>At 2,000 sqft <strong>semi-det</strong></td><td class="amber">~£891-931/sqft</td></tr>
+<tr class="tr"><td>Realistic for 2,000+ semi</td><td><strong>£900-975/sqft</strong></td></tr>
+</tbody></table></div>
+</div></div></div>
+
+<!-- TAB: MORTGAGE -->
+<div id="t-mortgage" class="tp">
+<div class="sec"><h2>🏦 Post-Completion Mortgage</h2>
+<div class="ig" style="grid-template-columns:1fr 1fr">
+<div class="igp"><h3>Mortgage Inputs</h3>
+<div class="ir"><label>Amount</label><input type="range" id="mAmt" min="0" max="1505520" step="10000" value="1260000" oninput="updM()"><span class="v" id="mAmtV">£550,000</span></div>
+<div class="ir"><label>Rate</label><input type="range" id="mRate" min="2" max="7" step=".05" value="3.75" oninput="updM()"><span class="v" id="mRateV">3.75%</span></div>
+<div class="ir"><label>Term</label><input type="range" id="mTerm" min="10" max="35" step="1" value="25" oninput="updM()"><span class="v" id="mTermV">25yr</span></div>
+</div>
+<div class="igp"><h3>Rate Presets (March 2026)</h3>
+<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">
+<button class="sb" onclick="setMR(3.55)" style="font-size:9px;padding:4px 8px">2yr 60% 3.55%</button>
+<button class="sb" onclick="setMR(3.75)" style="font-size:9px;padding:4px 8px">5yr 60% 3.75%</button>
+<button class="sb" onclick="setMR(3.84)" style="font-size:9px;padding:4px 8px">5yr 75% 3.84%</button>
+<button class="sb" onclick="setMR(3.98)" style="font-size:9px;padding:4px 8px">5yr 80% 3.98%</button>
+<button class="sb" onclick="setMR(4.25)" style="font-size:9px;padding:4px 8px">Private 4.25%</button>
+</div></div>
+</div>
+<div class="mg" style="margin-top:12px" id="mortCards"><div class="mcd"><h4>Monthly Payment</h4><div class="mbig">£2,828</div>
+    <div class="mdt">3.75%, 25yr repayment</div>
+    <div class="mdt">Interest only: £1,719/mo</div>
+    <div class="mtot">Total incl running: £3,563/mo</div></div><div class="mcd"><h4>Loan Details</h4><div class="mbig">33% LTV</div>
+    <div class="mdt">Mortgage: £550,000</div><div class="mdt">Deposit: £1,122,800</div>
+    <div class="mtot">Annual: £42,753</div></div><div class="mcd"><h4>Affordability</h4><div class="mbig">£122,222</div>
+    <div class="mdt">Gross income needed (4.5×)</div>
+    <div class="mtot">Monthly non-mortgage: £735</div></div></div>
+<div class="ic" style="margin-top:12px"><h3>Post-Mortgage Liquidity Refill</h3><table class="mt" id="mortLiq">
+    <tbody><tr><td>Total all-in cost</td><td>£2.01m</td></tr>
+    <tr><td>Mortgage proceeds</td><td class="green">+£550,000</td></tr>
+    <tr><td>Repay dev finance</td><td class="red">−£317,392</td></tr>
+    <tr><td>Net cash returned</td><td class="green">£232,608</td></tr>
+    <tr class="tr"><td><strong>Net cash tied up in property</strong></td><td><strong>£1,456,191</strong></td></tr>
+    <tr><td style="font-size:9px;color:#94A3B8" colspan="2">Any ISAs broken can now begin refilling at £20k/year</td></tr>
+  </tbody></table></div>
+</div></div>
+
+<!-- TAB: SENSITIVITY -->
+<div id="t-sens" class="tp">
+<div class="sec"><h2>📈 Sensitivity Analysis</h2>
+<p class="ht">Equity impact when each variable moves independently from your inputs.</p>
+<div id="sensBars"><div class="sc"><div class="sr "><div class="sl">GIA 1,700sqft</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:44.74589889270306%;background:#F87171;margin-left:5.25410110729694%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£228,841</div></div><div class="sr "><div class="sl">GIA 1,870sqft</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:9.992877070625509%;background:#F87171;margin-left:40.00712292937449%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£51,106</div></div><div class="sr "><div class="sl">Build +20%</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:88.39628430189676%;background:#F87171;margin-left:-38.396284301896756%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£452,079</div></div><div class="sr "><div class="sl">Build +30%</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:100%;background:#F87171;margin-left:-50%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£511,423</div></div><div class="sr "><div class="sl">Market -10%</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:97.89757932646873%;background:#F87171;margin-left:-47.89757932646873%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£500,671</div></div><div class="sr "><div class="sl">Semi-adj £975/sqft</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:87.24495250076313%;background:#F87171;margin-left:-37.244952500763134%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£446,191</div></div><div class="sr "><div class="sl">Size-adj £950/sqft</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:95.06626441390968%;background:#F87171;margin-left:-45.06626441390968%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£486,191</div></div><div class="sr sbase"><div class="sl">▶ BASE CASE</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:65.18885290568986%;background:#F87171;margin-left:-15.188852905689856%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£333,391</div></div><div class="sr "><div class="sl">Market +5%</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:48.83448969530038%;background:#F87171;margin-left:1.1655103046996231%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£249,751</div></div><div class="sr "><div class="sl">Premium £1,100/sqft</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:48.138392935030375%;background:#F87171;margin-left:1.8616070649696255%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£246,191</div></div><div class="sr "><div class="sl">Build -10%</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:53.58513720758648%;background:#F87171;margin-left:-3.5851372075864774%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£274,047</div></div><div class="sr "><div class="sl">No contingency used</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:50.599974880175225%;background:#F87171;margin-left:-0.5999748801752247%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£258,780</div></div><div class="sr "><div class="sl">Purchase £1,000,000</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:22.17163738338383%;background:#F87171;margin-left:27.82836261661617%"></div><div class="sz"></div></div></div><div class="svl" style="color:#F87171">−£113,391</div></div><div class="sr "><div class="sl">Purchase £900,000</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:0.9074456195166487%;background:#FBBF24;margin-left:49.09255438048335%"></div><div class="sz"></div></div></div><div class="svl" style="color:#FBBF24">−£4,641</div></div></div></div>
+</div></div>
+
+<!-- TAB: OFFER -->
+<div id="t-offer" class="tp">
+<div class="sec"><h2>🎯 Offer Strategy</h2>
+<div class="al alg"><span class="ali">✅</span><div><strong>Step 1:</strong> Commission <strong>measured survey</strong> (£2k) + demand <strong>structural survey</strong> from seller.</div></div>
+
+<h3>💎 Lifestyle Premium Framework</h3>
+<div class="al alb"><span class="ali">🏡</span><div>This purchase isn't purely financial — it's about <strong>school catchment</strong> (£140-200k of avoided private fees), <strong>permanence</strong>, <strong>entertaining</strong>, and ending "feels temporary." Set a <strong>conscious premium</strong> you're willing to pay for these intangibles.</div></div>
+<div class="igp" style="margin-bottom:14px"><h3>Your Lifestyle Budget</h3>
+<div class="ir"><label>School Fees Avoided (7yr state secondary)</label><input type="range" id="lpSchool" min="0" max="250000" step="5000" value="160000" oninput="upd()"><span class="v" id="lpSchoolV">£135,000</span></div>
+<div class="ir"><label>Amenity/Quality of Life Premium</label><input type="range" id="lpAmenity" min="0" max="200000" step="5000" value="50000" oninput="upd()"><span class="v" id="lpAmenityV">£60,000</span></div>
+<div class="ir"><label><strong>Total Lifestyle Premium</strong></label><span class="v" id="lpTotalV" style="color:#60A5FA">£195,000</span></div>
+</div>
+<div class="ic" style="margin-bottom:14px"><h3>Max Purchase Price (Financial Equity + Lifestyle Premium)</h3><table class="mt" id="lpTable">
+    <tbody><tr><td>GDV (from your inputs)</td><td>£1.67m</td></tr>
+    <tr><td>Costs excl. purchase + SDLT</td><td>£742,441</td></tr>
+    <tr><td>Pure financial break-even purchase</td><td class="amber">£1,265,000</td></tr>
+    <tr><td>Lifestyle premium budget</td><td class="blue">£195,000</td></tr>
+    <tr class="tr"><td><strong>Max purchase (incl. premium)</strong></td><td><strong class="green">£1,070,000</strong></td></tr>
+    <tr><td style="font-size:9px;color:#94A3B8" colspan="2">At £1,070,000, equity = -£195,000 — the premium you're consciously paying for lifestyle</td></tr>
+  </tbody></table></div>
+
+<div class="ob" style="margin-bottom:16px">
+<div class="oi"><span>Opening</span><strong>£1,000,000</strong></div>
+<div class="oi"><span>2nd Offer</span><strong>£1,050,000</strong></div>
+<div class="oi w"><span>Stretch Max</span><strong>£1,100,000</strong></div>
+<div class="oi d"><span>Walk Away</span><strong>£1,150,000</strong></div>
+</div>
+
+<h3>💼 Developer Leverage</h3>
+<div class="al alr"><span class="ali">🚫</span><div>A developer needs <strong>£1.5-2.0m CASH</strong> and can't achieve 20% return above ~£700k. This eliminates all developers — only <strong>cash-rich owner-occupiers</strong> can bid. Pool: ~10-20 people in London.</div></div>
+
+<div class="g2">
+<div class="ic"><h3>Negotiation Leverage</h3><ul>
+<li>🔴 <strong>Unmortgageable</strong> — cash only</li>
+<li>🔴 <strong>Developers eliminated</strong> above £700k</li>
+<li>🔴 <strong>Subsidence</strong> — demand structural survey</li>
+<li>🔴 <strong>Seller's SDLT sunk</strong> — £56.5k surcharge, no reclaim</li>
+<li>🟡 <strong>Architect sweat equity</strong> — their design costs you nothing</li>
+<li>🟡 <strong>3 properties = pressure</strong> — monthly bleed</li>
+<li>🟡 <strong>Dream abandoned</strong> — likely cost shock</li>
+<li>🟡 <strong>They're your neighbour</strong> — be respectful</li>
+<li>🟢 <strong>Market flat/soft</strong> — 130-140 days, 2-10% discounts</li>
+<li>🟢 <strong>You don't love their design</strong> — reduces planning "value"</li>
+</ul></div>
+<div class="ic"><h3>Equity at Each Offer</h3><table class="mt" id="offEqT"><tbody><tr><td>£900,000 (aggressive)</td><td class="amber">−£4,641</td></tr><tr><td>£1,000,000 (opening)</td><td class="red">−£113,391</td></tr><tr><td>£1,050,000 (2nd offer)</td><td class="red">−£168,391</td></tr><tr><td>£1,100,000 (stretch max)</td><td class="red">−£223,391</td></tr><tr><td>£1,130,000 (prev sale)</td><td class="red">−£256,391</td></tr><tr><td>£1,200,000 (negotiated)</td><td class="red">−£333,391</td></tr><tr><td>£1,400,000 (asking)</td><td class="red">−£553,391</td></tr></tbody></table>
+<div style="margin-top:8px;font-size:9px;color:#94A3B8">Live from your current inputs.</div>
+</div></div>
+
+<div class="ic" style="margin-top:12px"><h3>Tactics — They're Your Future Neighbour</h3><ul>
+<li>🤝 <strong>Don't disparage their design</strong> — say: <em>"Plans are excellent but may not suit our family's layout"</em></li>
+<li>📋 <strong>Ask for structural survey</strong> — dodging = subsidence confirmed</li>
+<li>⏰ <strong>Time favours you</strong> — every month costs them ~£750+ on derelict</li>
+<li>🤫 <strong>Don't reveal intel about 2nd home</strong> — hold in reserve</li>
+<li>💬 <strong>To agent:</strong> <em>"All-in cost exceeds £2.3m against £2.1m GDV. No developer can bid. We're serious cash buyers at £1m."</em></li>
+</ul></div>
+</div></div>
+
+<footer>
+<p>Model v4 · March 2026 · SDLT 2025/26 (No surcharge — buyer is renting) · All figures are estimates</p>
+<p><strong>⚠️ Get measured survey + demand structural survey before any offer</strong></p>
+</footer>
+</div>
+
+<script>
+const EX=1604;
+function $(id){return document.getElementById(id)}
+function V(id){return parseFloat($(id).value)}
+function F(n){return(n<0?'−':'')+'£'+Math.abs(Math.round(n)).toLocaleString('en-GB')}
+function Fm(n){if(Math.abs(n)>=1e6)return(n<0?'−':'')+'£'+(Math.abs(n)/1e6).toFixed(2)+'m';return F(n)}
+function P(n){return(n>=0?'+':'')+n.toFixed(1)+'%'}
+function setSc(p){$('pp').value=p;upd()}
+function stab(id,btn){document.querySelectorAll('.tp').forEach(p=>p.classList.remove('act'));document.querySelectorAll('.tb').forEach(b=>b.classList.remove('act'));$('t-'+id).classList.add('act');btn.classList.add('act')}
+function setMR(r){$('mRate').value=r;updM()}
+
+function calcSDLT(p){
+  const b=[{u:125000,r:0},{u:250000,r:.02},{u:925000,r:.05},{u:1500000,r:.10},{u:1e18,r:.12}];
+  let s=0,pv=0;for(const x of b){if(p<=pv){pv=x.u;continue}const t=Math.min(p,x.u)-pv;s+=t*x.r;pv=x.u}
+  return s;
+}
+function mPay(pr,ar,yr){const r=ar/12,n=yr*12;if(r===0)return pr/n;return pr*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1)}
+function mortBal(pr,ar,yr,mp){const r=ar/12,n=yr*12,pmt=mPay(pr,ar,yr);if(r===0)return pr-(pmt*mp);return pr*Math.pow(1+r,mp)-pmt*(Math.pow(1+r,mp)-1)/r}
+
+const specs={
+  budget:{r:140,e:280,g:170,p:55000,s:60000,x:30000},
+  mid:{r:180,e:320,g:195,p:65000,s:80000,x:38000},
+  premium:{r:220,e:360,g:220,p:76000,s:100000,x:45000},
+  ultra:{r:300,e:450,g:280,p:95000,s:130000,x:60000}
+};
+function setSpec(lv,btn){
+  const s=specs[lv];
+  $('rpsf').value=s.r;$('epsf').value=s.e;$('gpsf').value=s.g;
+  $('fcP').value=s.p;$('fcS').value=s.s;$('fcE').value=s.x;
+  document.querySelectorAll('.spec-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');upd();
+}
+
+function calcEq(pp,gia,garden,psf,netBuild,contR,finR,buildMo,preConMo,redesign,holdMo,gdPct,dfLTV,rentMo){
+  const vat=.05,sdlt=calcSDLT(pp),gb=netBuild*(1+vat),cont=netBuild*contR*(1+vat);
+  const fees=redesign?87000:49000,reMo=redesign?6:0,tMo=preConMo+buildMo+reMo;
+  const fac=netBuild*dfLTV,int=fac*.5*finR*(buildMo/12),fin=int+(fac*.02)+(fac*.01)+6000;
+  const hold=holdMo*tMo,rentCost=rentMo*tMo,reX=redesign?38000+(6*(holdMo+rentMo)):0;
+  const cost=pp+sdlt+gb+cont+fees+fin+hold+rentCost+(redesign?reX:0);
+  const gdv=(gia*psf)+(garden*psf*gdPct);return gdv-cost;
+}
+
+// GLOBAL STATE
+let G={};
+
+function upd(){
+  const pp=V('pp'),gia=V('gia'),garden=V('gr'),psf=V('psf');
+  const contR=V('ct')/100,finR=V('fr')/100,buildMo=V('bm'),preConMo=V('pcm');
+  const redesign=$('rd').checked,coR=V('co')/100,mmR=V('mm')/100,gdPct=V('gd')/100;
+  const holdMo=V('hI')+V('hC')+V('hU')+V('hS');
+  const rentMo=V('hR');
+  const dfLTV=V('dfLTV')/100;
+  const extArea=Math.max(0,gia-EX);
+
+  // Build cost
+  const rpsf=V('rpsf'),epsf=V('epsf'),gpsf=V('gpsf');
+  const fcP=V('fcP'),fcS=V('fcS'),fcE=V('fcE');
+  const renoT=EX*rpsf,extT=extArea*epsf,grBT=garden*gpsf;
+  const rawBuild=renoT+extT+grBT+fcP+fcS+fcE;
+  const netBuild=rawBuild*(1+coR);
+  const adjPSF=psf*(1+mmR);
+
+  // Display
+  $('ppV').textContent=F(pp);$('frV').textContent=V('fr')+'%';
+  $('dfLTVV').textContent=V('dfLTV')+'% of build';
+  $('giaV').textContent=Math.round(gia).toLocaleString()+' sqft';
+  $('grV').textContent=Math.round(garden)+' sqft';
+  $('extV').textContent=Math.round(extArea)+' sqft';
+  $('psfV').textContent='£'+Math.round(psf).toLocaleString()+'/sqft';
+  $('mmV').textContent=(mmR>=0?'+':'')+Math.round(mmR*100)+'%';
+  $('gdV').textContent=Math.round(gdPct*100)+'%';
+  $('pcmV').textContent=Math.round(preConMo)+' mo';
+  $('bmV').textContent=Math.round(buildMo)+' mo';
+  const reMo=redesign?6:0,tMo=preConMo+buildMo+reMo;
+  $('tmV').textContent=Math.round(tMo)+' mo'+(redesign?' (incl 6mo redesign)':'');
+  $('ctV').textContent=Math.round(contR*100)+'%';
+  $('coV').textContent=(coR>=0?'+':'')+Math.round(coR*100)+'%';
+  document.querySelectorAll('.redesign-row').forEach(r=>r.style.display=redesign?'':'none');
+
+  // Build display
+  $('rpsfV').textContent='£'+rpsf+'/sqft';$('rpsfD').textContent=rpsf;
+  $('epsfV').textContent='£'+epsf+'/sqft';$('epsfD').textContent=epsf;
+  $('gpsfV').textContent='£'+gpsf+'/sqft';$('gpsfD').textContent=gpsf;
+  $('extD').textContent=Math.round(extArea);$('extD2').textContent=Math.round(extArea);
+  $('grD').textContent=Math.round(garden);$('grD2').textContent=Math.round(garden);
+  $('fcPV').textContent=F(fcP);$('fcSV').textContent=F(fcS);$('fcEV').textContent=F(fcE);
+  $('renoT').textContent=F(renoT);$('extT').textContent=F(extT);$('grBT').textContent=F(grBT);
+  $('bsR').textContent=F(renoT);$('bsE').textContent=F(extT);$('bsG').textContent=F(grBT);
+  $('bsP').textContent=F(fcP);$('bsSt').textContent=F(fcS);$('bsEx').textContent=F(fcE);
+  $('bsNet').textContent=F(netBuild);
+  $('bsVAT').textContent=F(netBuild*.05);
+  $('bsGross').textContent=F(netBuild*1.05);
+
+  // SDLT - NO SURCHARGE for buyer
+  const sdltO=calcSDLT(pp);
+  const sdltF=sdltO+pp*.05;
+
+  // Costs
+  const vat=.05,grossB=netBuild*(1+vat),cont=netBuild*contR*(1+vat);
+  const fees=redesign?87000:49000,reX=redesign?38000+(6*(holdMo+rentMo)):0;
+  const facility=netBuild*dfLTV,interest=facility*.5*finR*(buildMo/12);
+  const finT=interest+(facility*.02)+(facility*.01)+6000;
+  const holding=holdMo*tMo;
+  const rentCost=rentMo*tMo;
+  const totalOwner=pp+sdltO+grossB+cont+fees+finT+holding+rentCost+(redesign?reX:0);
+  const mainGDV=gia*adjPSF,gardenGDV=garden*adjPSF*gdPct,totalGDV=mainGDV+gardenGDV;
+  const equity=totalGDV-totalOwner,eqPct=(equity/totalOwner)*100;
+  const effSqft=gia+(garden*gdPct),bePSF=totalOwner/effSqft;
+
+  // Flip (with surcharge)
+  const sellCost=totalGDV*.018+3800;
+  const totalFlip=pp+sdltF+grossB+cont+fees+finT+holding+rentCost+sellCost;
+  const flipPr=totalGDV-totalFlip,flipROC=(flipPr/totalFlip)*100;
+  const cgt=flipPr>0?flipPr*.24:0,flipNet=flipPr-cgt;
+
+  // METRICS
+  $('mC').textContent=Fm(totalOwner);$('mCs').textContent='Owner (no surcharge)';
+  $('mG').textContent=Fm(totalGDV);$('mGs').textContent=Math.round(gia).toLocaleString()+'sqft @ £'+Math.round(adjPSF).toLocaleString();
+  $('mE').textContent=Fm(equity);$('mEs').textContent=P(eqPct);
+  $('cE').className='mc '+(equity>50000?'cg':equity>-50000?'ca':'cr');
+  let vd,vs,vc;
+  if(equity>100000){vd='✅ STRONG BUY';vs='Good cushion';vc='cg'}
+  else if(equity>0){vd='✅ FAIR';vs='Verify GIA';vc='cg'}
+  else if(equity>-75000){vd='⚠️ MARGINAL';vs='Slight risk';vc='ca'}
+  else if(equity>-200000){vd='⚠️ RISKY';vs='Significant gap';vc='ca'}
+  else{vd='❌ DO NOT BUY';vs='Major loss';vc='cr'}
+  $('mV').textContent=vd;$('mVs').textContent=vs;$('cV').className='mc '+vc;
+
+  // Cost tables
+  $('bP').textContent=F(pp);$('bS').textContent=F(sdltO);
+  $('bB').textContent=F(grossB);$('bCt').textContent=F(cont);
+  $('bF').textContent=F(fees);$('bFn').textContent=F(finT);
+  $('bH').textContent=F(holding);$('bRent').textContent=F(rentCost);
+  if(redesign)$('bRd').textContent=F(reX);
+  $('bT').textContent=F(totalOwner);$('bGDV').textContent=F(totalGDV);
+  $('bEq').textContent=F(equity);$('bEq').style.color=equity>=0?'#4ADE80':'#F87171';
+  $('bBE').textContent='£'+Math.round(bePSF).toLocaleString()+'/sqft';
+  $('bBE').style.color=bePSF>1050?'#F87171':bePSF>1000?'#FBBF24':'#4ADE80';
+
+  $('fP').textContent=F(pp);$('fS').textContent=F(sdltF);
+  $('fB').textContent=F(grossB+cont);$('fF').textContent=F(fees);
+  $('fFH').textContent=F(finT+holding+rentCost);$('fSl').textContent=F(sellCost);
+  $('fT').textContent=F(totalFlip);$('fGDV').textContent=F(totalGDV);
+  $('fPr').textContent=F(flipPr);$('fPr').style.color=flipPr>=0?'#4ADE80':'#F87171';
+  $('fCGT').textContent=cgt>0?F(cgt):'—';
+  $('fNet').textContent=F(flipNet);$('fNet').style.color=flipNet>=0?'#4ADE80':'#F87171';
+  $('fROC').textContent=P(flipROC);$('fROC').style.color=flipROC>=15?'#4ADE80':flipROC>=0?'#FBBF24':'#F87171';
+
+  // Store globals for other tabs
+  G={pp,gia,garden,adjPSF,netBuild,contR,finR,buildMo,preConMo,redesign,holdMo,gdPct,dfLTV,rentMo,totalOwner,totalGDV,equity,sdltO,fees,finT,holding,rentCost,grossB,cont,reX,tMo,facility};
+
+  // Lifestyle premium
+  const lpS=V('lpSchool'),lpA=V('lpAmenity'),lpT=lpS+lpA;
+  $('lpSchoolV').textContent=F(lpS);$('lpAmenityV').textContent=F(lpA);
+  $('lpTotalV').textContent=F(lpT);
+  // Max purchase with lifestyle premium
+  const baseGDV=totalGDV;
+  const baseCostExPP=totalOwner-pp-sdltO;
+  // equity = GDV - (pp + sdlt + baseCostExPP) → for equity = -lpT: pp = GDV + lpT - baseCostExPP - sdlt(pp)
+  // Iterative solve
+  let maxPP=pp;
+  for(let test=500000;test<=1600000;test+=5000){
+    const testSDLT=calcSDLT(test);
+    const testCost=test+testSDLT+baseCostExPP;
+    const testEq=baseGDV-testCost;
+    if(testEq>=-lpT)maxPP=test;
+  }
+  $('lpTable').innerHTML=`
+    <tr><td>GDV (from your inputs)</td><td>${Fm(totalGDV)}</td></tr>
+    <tr><td>Costs excl. purchase + SDLT</td><td>${F(Math.round(baseCostExPP))}</td></tr>
+    <tr><td>Pure financial break-even purchase</td><td class="amber">${F(maxPP+Math.round(lpT))}</td></tr>
+    <tr><td>Lifestyle premium budget</td><td class="blue">${F(lpT)}</td></tr>
+    <tr class="tr"><td><strong>Max purchase (incl. premium)</strong></td><td><strong class="green">${F(maxPP)}</strong></td></tr>
+    <tr><td style="font-size:9px;color:#94A3B8" colspan="2">At ${F(maxPP)}, equity = -${F(lpT)} — the premium you're consciously paying for lifestyle</td></tr>
+  `;
+
+  // LIQUIDITY
+  buildLiquidity(pp,sdltO,fees,netBuild,dfLTV,cont,contR,finT,holding,rentCost,redesign,reX,tMo);
+
+  // Mortgage
+  $('mAmt').max=Math.round(totalGDV*.9);updM();
+
+  // Sensitivity
+  buildSens(pp,gia,garden,adjPSF,netBuild,contR,finR,buildMo,preConMo,redesign,holdMo,gdPct,dfLTV,rentMo,equity);
+
+  // Offer equity
+  buildOffEq(gia,garden,adjPSF,netBuild,contR,finR,buildMo,preConMo,redesign,holdMo,gdPct,dfLTV,rentMo);
+}
+
+function buildLiquidity(pp,sdlt,fees,netBuild,dfLTV,cont,contR,finT,holding,rentCost,redesign,reX,tMo){
+  const cash=V('lqCash'),isa=V('lqISA'),taxR=V('taxR')/100;
+  $('lqCashV').textContent=F(cash);$('lqISAV').textContent=F(isa);$('taxRV').textContent=V('taxR')+'%';
+
+  const cashBuildContrib=netBuild*(1-dfLTV);
+  const vat=netBuild*.05;
+  const contGross=netBuild*contR*1.05;
+
+  // Waterfall stages
+  const s1=cash; // start
+  const s2=s1-pp; // after purchase
+  const s3=s2-sdlt; // after SDLT
+  const s4=s3-fees; // after fees
+  const s5=s4-cashBuildContrib-vat-contGross; // after build cash contribution
+  const s6=s5-finT; // after finance costs
+  const s7=s6-holding-rentCost-(redesign?reX:0); // trough
+
+  const isaNeeded=s7<0?Math.abs(s7):0;
+  const isaShieldAnnual=isaNeeded*.06*taxR;
+  const isaNPV=isaShieldAnnual*((1-Math.pow(1/1.035,20))/.035);
+
+  // ISA table
+  $('isaT').innerHTML=`
+    <tr><td>ISA drawdown needed</td><td class="${isaNeeded>0?'red':'green'}">${isaNeeded>0?F(isaNeeded):'£0 ✅'}</td></tr>
+    <tr><td>Annual return on that (6%)</td><td>${F(isaNeeded*.06)}/yr</td></tr>
+    <tr><td>Tax-free (inside ISA)</td><td class="green">${F(isaNeeded*.06)}/yr</td></tr>
+    <tr><td>After tax (outside ISA, ${V('taxR')}%)</td><td class="amber">${F(isaNeeded*.06*(1-taxR))}/yr</td></tr>
+    <tr><td>Annual shield lost</td><td class="red">${F(isaShieldAnnual)}/yr</td></tr>
+    <tr class="tr"><td><strong>NPV of lost shield (20yr)</strong></td><td><strong class="red">${F(isaNPV)}</strong></td></tr>
+    <tr><td>Years to rebuild at £20k/yr</td><td class="amber">${Math.ceil(isaNeeded/20000)} years</td></tr>
+  `;
+
+  // Waterfall chart
+  const stages=[
+    {l:'Starting<br>Cash',v:s1,c:'#4ADE80'},
+    {l:'After<br>Purchase',v:s2,c:'#60A5FA'},
+    {l:'After<br>SDLT',v:s3,c:'#60A5FA'},
+    {l:'After<br>Fees',v:s4,c:'#818CF8'},
+    {l:'After Build<br>Cash',v:s5,c:'#FBBF24'},
+    {l:'After<br>Finance',v:s6,c:'#FBBF24'},
+    {l:'Trough<br>(end build)',v:s7,c:s7>=0?'#4ADE80':'#F87171'},
+  ];
+  const mx=Math.max(...stages.map(s=>Math.abs(s.v)));
+  const zeroY=170;
+  let wfH='';
+  for(const st of stages){
+    const h=Math.max(Math.abs(st.v)/mx*150,8);
+    const isNeg=st.v<0;
+    const topPos=isNeg?'bottom:auto;top:calc(100% - '+(zeroY)+'px)':'bottom:'+(zeroY-h-30)+'px';
+    wfH+=`<div class="liq-col"><div class="liq-bar" style="height:${h}px;background:${st.c};${isNeg?'margin-top:auto':'margin-top:auto'}"><div class="liq-val" style="color:${st.c}">${st.v>=0?F(st.v):'−'+F(Math.abs(st.v))}</div></div><div class="liq-lbl">${st.l}</div></div>`;
+  }
+  $('liqWF').innerHTML=wfH;
+
+  // Detail table
+  $('liqDetail').innerHTML=`
+    <tr><td>Starting liquid cash</td><td class="green">${F(cash)}</td></tr>
+    <tr><td>Minus purchase price</td><td class="red">−${F(pp)}</td></tr>
+    <tr><td>Minus SDLT (no surcharge)</td><td class="red">−${F(sdlt)}</td></tr>
+    <tr><td>Minus professional fees</td><td class="red">−${F(fees)}</td></tr>
+    <tr><td>Minus build cash (${Math.round((1-dfLTV)*100)}% of net)</td><td class="red">−${F(cashBuildContrib)}</td></tr>
+    <tr><td>Minus VAT + contingency (gross)</td><td class="red">−${F(vat+contGross)}</td></tr>
+    <tr><td>Minus finance costs</td><td class="red">−${F(finT)}</td></tr>
+    <tr><td>Minus holding (${Math.round(G.tMo)} months)</td><td class="red">−${F(holding)}</td></tr>
+    <tr><td>Minus rent during build (${Math.round(G.tMo)} × ${F(V('hR'))})</td><td class="red">−${F(rentCost)}</td></tr>
+    ${redesign?`<tr><td>Minus redesign extra</td><td class="red">−${F(reX)}</td></tr>`:''}
+    <tr class="tr"><td><strong>Cash at trough (month ${Math.round(G.tMo)})</strong></td><td><strong class="${s7>=0?'green':'red'}">${F(s7)}</strong></td></tr>
+    ${isaNeeded>0?`<tr><td class="red"><strong>ISA drawdown needed</strong></td><td class="red"><strong>${F(isaNeeded)}</strong></td></tr>
+    <tr><td>NPV cost of ISA breakage</td><td class="red">${F(isaNPV)}</td></tr>`:`<tr><td class="green">No ISA drawdown needed ✅</td><td></td></tr>`}
+  `;
+
+  // Dev finance LTV impact
+  const ltvs=[60,65,70,75,80];
+  let dfH='';
+  for(const l of ltvs){
+    const cashB=netBuild*(1-l/100);
+    const fac=netBuild*l/100;
+    const fin=fac*.5*(V('fr')/100)*(V('bm')/12)+(fac*.03)+6000;
+    const trough=cash-pp-sdlt-fees-cashB-(netBuild*.05)-(netBuild*contR*1.05)-fin-holding-rentCost-(redesign?reX:0);
+    const need=trough<0?Math.abs(trough):0;
+    const col=need===0?'green':need<100000?'amber':'red';
+    const active=l===Math.round(dfLTV*100)?'style="font-weight:700;color:#60A5FA"':'';
+    dfH+=`<tr ${active}><td>${l}% LTV</td><td>Borrow ${F(fac)}</td><td class="${col}">${need>0?'ISA: '+F(need):'No ISA ✅'}</td></tr>`;
+  }
+  $('dfImpact').innerHTML=`<tr><td colspan="3" style="font-size:9px;color:#64748B;padding-bottom:4px">Higher dev finance LTV = less ISA breakage needed</td></tr>`+dfH;
+}
+
+function updM(){
+  const amt=V('mAmt'),rate=V('mRate')/100,term=V('mTerm');
+  $('mAmtV').textContent=F(amt);$('mRateV').textContent=V('mRate')+'%';$('mTermV').textContent=term+'yr';
+  const mo=mPay(amt,rate,term);
+  const moIO=amt*rate/12;
+  const nonMort=735;
+  const totalMo=mo+nonMort;
+  const gdv=G.totalGDV||2100000;
+  const ltv=gdv>0?(amt/gdv*100):0;
+  const deposit=gdv-amt;
+
+  let cards=`<div class="mcd"><h4>Monthly Payment</h4><div class="mbig">${F(Math.round(mo))}</div>
+    <div class="mdt">${V('mRate')}%, ${term}yr repayment</div>
+    <div class="mdt">Interest only: ${F(Math.round(moIO))}/mo</div>
+    <div class="mtot">Total incl running: ${F(Math.round(totalMo))}/mo</div></div>`;
+  cards+=`<div class="mcd"><h4>Loan Details</h4><div class="mbig">${Math.round(ltv)}% LTV</div>
+    <div class="mdt">Mortgage: ${F(amt)}</div><div class="mdt">Deposit: ${F(Math.max(0,deposit))}</div>
+    <div class="mtot">Annual: ${F(Math.round(totalMo*12))}</div></div>`;
+  const reqInc=Math.round(amt/4.5);
+  cards+=`<div class="mcd"><h4>Affordability</h4><div class="mbig">${F(reqInc)}</div>
+    <div class="mdt">Gross income needed (4.5×)</div>
+    <div class="mtot">Monthly non-mortgage: £735</div></div>`;
+  $('mortCards').innerHTML=cards;
+
+  // Post-mortgage liquidity refill
+  const totalCost=G.totalOwner||2200000;
+  const cashBack=amt;
+  const netCashTied=totalCost-cashBack;
+  $('mortLiq').innerHTML=`
+    <tr><td>Total all-in cost</td><td>${Fm(totalCost)}</td></tr>
+    <tr><td>Mortgage proceeds</td><td class="green">+${F(amt)}</td></tr>
+    <tr><td>Repay dev finance</td><td class="red">−${F(Math.round(G.facility||0))}</td></tr>
+    <tr><td>Net cash returned</td><td class="green">${F(Math.round(amt-(G.facility||0)))}</td></tr>
+    <tr class="tr"><td><strong>Net cash tied up in property</strong></td><td><strong>${F(Math.max(0,Math.round(netCashTied)))}</strong></td></tr>
+    <tr><td style="font-size:9px;color:#94A3B8" colspan="2">Any ISAs broken can now begin refilling at £20k/year</td></tr>
+  `;
+}
+
+function buildSens(pp,gia,garden,psf,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm,baseEq){
+  const sc=[
+    {l:'GIA 1,700sqft',eq:calcEq(pp,1700,garden,psf,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'GIA 1,870sqft',eq:calcEq(pp,1870,garden,psf,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'Build +20%',eq:calcEq(pp,gia,garden,psf,nb*1.2,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'Build +30%',eq:calcEq(pp,gia,garden,psf,nb*1.3,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'Market -10%',eq:calcEq(pp,gia,garden,psf*.9,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'Semi-adj £975/sqft',eq:calcEq(pp,gia,garden,975,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'Size-adj £950/sqft',eq:calcEq(pp,gia,garden,950,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'▶ BASE CASE',eq:baseEq},
+    {l:'Market +5%',eq:calcEq(pp,gia,garden,psf*1.05,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'Premium £1,100/sqft',eq:calcEq(pp,gia,garden,1100,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'Build -10%',eq:calcEq(pp,gia,garden,psf,nb*.9,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'No contingency used',eq:calcEq(pp,gia,garden,psf,nb,0,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'Purchase £1,000,000',eq:calcEq(1000000,gia,garden,psf,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+    {l:'Purchase £900,000',eq:calcEq(900000,gia,garden,psf,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm)},
+  ];
+  const mx=Math.max(...sc.map(s=>Math.abs(s.eq)),1);
+  let h='<div class="sc">';
+  for(const s of sc){
+    const isB=s.l.includes('BASE'),w=Math.min(Math.abs(s.eq)/mx*100,100),pos=s.eq>=0;
+    const c=s.eq>50000?'#4ADE80':s.eq>-50000?'#FBBF24':'#F87171';
+    h+=`<div class="sr ${isB?'sbase':''}"><div class="sl">${s.l}</div><div class="sbc"><div class="sbg"><div class="sbar" style="width:${w}%;background:${c};${pos?'margin-left:50%':'margin-left:'+(50-w)+'%'}"></div><div class="sz"></div></div></div><div class="svl" style="color:${c}">${F(s.eq)}</div></div>`;
+  }
+  h+='</div>';$('sensBars').innerHTML=h;
+}
+
+function buildOffEq(gia,garden,psf,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm){
+  const prices=[900000,1000000,1050000,1100000,1130000,1200000,1400000];
+  const labels={900000:' (aggressive)',1000000:' (opening)',1050000:' (2nd offer)',1100000:' (stretch max)',1130000:' (prev sale)',1200000:' (negotiated)',1400000:' (asking)'};
+  let h='';
+  for(const p of prices){
+    const eq=calcEq(p,gia,garden,psf,nb,contR,fr,bm,pcm,rd,hm,gd,df,rm);
+    const c=eq>50000?'green':eq>-50000?'amber':'red';
+    h+=`<tr><td>${F(p)}${labels[p]||''}</td><td class="${c}">${F(eq)}</td></tr>`;
+  }
+  $('offEqT').innerHTML=h;
+}
+
+// COMPS
+const comps=[
+  {a:'65 Ruskin Walk',d:'Aug 2023',p:1575000,t:'Terr',sf:1249,psf:1261,pc:'9NA',n:'★ Highest'},
+  {a:'51 Ruskin Walk',d:'Feb 2024',p:1315000,t:'Terr',sf:1313,psf:1002,pc:'9NA',n:'Near benchmark'},
+  {a:'79 Ruskin Walk',d:'Sep 2021',p:1250000,t:'Terr',sf:1195,psf:1046,pc:'9NA',n:'Strong'},
+  {a:'21 Ruskin Walk',d:'Dec 2021',p:1098000,t:'Terr',sf:1087,psf:1010,pc:'9NA',n:'Smaller'},
+  {a:'15 Ruskin Walk',d:'Jan 2024',p:985000,t:'Terr',sf:1033,psf:954,pc:'9NA',n:'Below avg'},
+  {a:'13 Ruskin Walk',d:'Dec 2022',p:1434000,t:'Terr',sf:1604,psf:894,pc:'9NA',n:'Larger→lower'},
+  {a:'49 Ruskin Walk',d:'Aug 2022',p:1420000,t:'Terr',sf:1582,psf:898,pc:'9NA',n:'Same pattern'},
+  {a:'33 Ruskin Walk',d:'Jan 2022',p:1270000,t:'Terr',sf:1572,psf:808,pc:'9NA',n:'Below avg'},
+  {a:'81 Ruskin Walk',d:'Apr 2018',p:1500000,t:'Terr',sf:1668,psf:899,pc:'9NA',n:'Large'},
+  {a:'37 Ruskin Walk',d:'Sep 2021',p:1225000,t:'Terr',sf:1636,psf:749,pc:'9NA',n:'Lowest'},
+  {a:'52 Ruskin Walk',d:'Jul 2024',p:1332500,t:'Semi',sf:null,psf:null,pc:'9LZ',n:'Most recent 9LZ'},
+  {a:'46 Ruskin Walk',d:'Apr 2022',p:1541501,t:'Semi',sf:null,psf:null,pc:'9LZ',n:'Highest 9LZ'},
+  {a:'76 Ruskin Walk',d:'Oct 2021',p:1375000,t:'Semi',sf:null,psf:null,pc:'9LZ',n:''},
+  {a:'44 Ruskin Walk',d:'Aug 2020',p:1465000,t:'Semi',sf:null,psf:null,pc:'9LZ',n:''},
+];
+function buildComps(){
+  let h='';for(const c of comps){
+    const cls=c.psf?c.psf>=1000?'ph':c.psf>=900?'pm':'pl':'';
+    const pD=c.psf?`<span class="pb ${cls}">£${c.psf}</span>`:'<span style="color:#64748B">—</span>';
+    const sD=c.sf?c.sf.toLocaleString():'<span style="color:#64748B">—</span>';
+    const pcC=c.pc==='9LZ'?'style="color:#60A5FA;font-weight:600"':'';
+    h+=`<tr><td>${c.a}</td><td>${c.d}</td><td>${F(c.p)}</td><td>${c.t}</td><td>${sD}</td><td>${pD}</td><td ${pcC}>${c.pc}</td><td style="font-size:9px;color:#94A3B8">${c.n}</td></tr>`;
+  }$('compTB').innerHTML=h;
+}
+function buildSizeChart(){
+  const bands=[{l:'1,000-<br>1,100',avg:1056,c:'#4ADE80'},{l:'1,100-<br>1,300',avg:1019,c:'#4ADE80'},{l:'1,300-<br>1,600',avg:867,c:'#FBBF24'},{l:'1,600-<br>1,700',avg:810,c:'#F87171'},{l:'2,000+<br>Semi(+10%)',avg:891,c:'#818CF8'}];
+  const mx=1300;let h='';for(const b of bands){const ht=(b.avg/mx)*100;h+=`<div class="szw"><div class="szv" style="color:${b.c}">£${b.avg}</div><div class="szb" style="height:${ht}px;background:${b.c}"></div><div class="szl">${b.l}</div></div>`;}
+  $('sizeChart').innerHTML=h;
+}
+function buildSellerWF(){
+  const items=[{l:'Purchase',v:1130000,c:'#60A5FA'},{l:'SDLT<br>(std)',v:56750,c:'#818CF8'},{l:'SDLT<br>(5% surch)',v:56500,c:'#F87171'},{l:'Legal+<br>Works',v:34500,c:'#818CF8'},{l:'Holding',v:7956,c:'#818CF8'},{l:'Total In',v:1285706,c:'#FBBF24'},{l:'Sell<br>Costs',v:29000,c:'#F87171'},{l:'Break-<br>Even',v:1310000,c:'#F87171'},{l:'Asking',v:1400000,c:'#4ADE80'},{l:'Profit',v:89000,c:'#4ADE80'}];
+  const mx=1500000;let h='';for(const it of items){const ht=Math.max((it.v/mx)*150,8);h+=`<div class="wfc"><div class="wfb" style="height:${ht}px;background:${it.c}"><div class="wfv">${it.v>=1e6?'£'+(it.v/1e6).toFixed(2)+'m':'£'+(it.v/1000).toFixed(0)+'k'}</div></div><div class="wfl">${it.l}</div></div>`;}
+  $('sellerWF').innerHTML=h;
+}
+
+buildComps();buildSizeChart();buildSellerWF();
+setSpec('premium',document.querySelector('.spec-btn.active'));
+</script>
+
+        </main>
+
+        <footer class="report-footer">
+            <p>Generated by Document Server session id: 2f5c9ef3-2d0a-42f3-be83-01e724b6f0e0</p>
+        </footer>
+    </div>
+
+
+</body></html>
